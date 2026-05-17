@@ -8,6 +8,7 @@
 <meta name="description" content="Convert images between JPG, PNG and WebP free in your browser. No upload, no sign-up — your files never leave your device. Resize and adjust quality too." />
 <meta name="keywords" content="image converter, jpg to png, png to jpg, webp converter, convert image online, resize image" />
 <meta name="robots" content="index, follow" />
+<meta name="google-site-verification" content="oKcBIlK-mCgUqm2mpyczK0LH7xRJfywHd0w0n_bejv8" />
 <link rel="canonical" href="/" />
 <meta property="og:title" content="Quiet Convert — Free Private Image Converter" />
 <meta property="og:description" content="Convert JPG, PNG and WebP in your browser. Files never leave your device." />
@@ -164,30 +165,28 @@
       <input type="file" id="file" accept="image/png,image/jpeg,image/webp" multiple hidden />
     </div>
 
-```
-<div class="controls" id="controls">
-  <div class="row">
-    <label for="fmt">Convert to</label>
-    <select id="fmt">
-      <option value="image/png">PNG</option>
-      <option value="image/jpeg">JPG</option>
-      <option value="image/webp">WebP</option>
-    </select>
-  </div>
-  <div class="row" id="qrow">
-    <label for="quality">Quality</label>
-    <input type="range" id="quality" min="10" max="100" value="90" />
-    <span class="qval" id="qval">90%</span>
-  </div>
-  <div class="row">
-    <label for="maxw">Max width</label>
-    <input type="number" id="maxw" placeholder="optional, e.g. 1920" min="1" />
-  </div>
-  <button class="btn" id="go">Convert</button>
-</div>
+    <div class="controls" id="controls">
+      <div class="row">
+        <label for="fmt">Convert to</label>
+        <select id="fmt">
+          <option value="image/png">PNG</option>
+          <option value="image/jpeg">JPG</option>
+          <option value="image/webp">WebP</option>
+        </select>
+      </div>
+      <div class="row" id="qrow">
+        <label for="quality">Quality</label>
+        <input type="range" id="quality" min="10" max="100" value="90" />
+        <span class="qval" id="qval">90%</span>
+      </div>
+      <div class="row">
+        <label for="maxw">Max width</label>
+        <input type="number" id="maxw" placeholder="optional, e.g. 1920" min="1" />
+      </div>
+      <button class="btn" id="go">Convert</button>
+    </div>
 
-<div class="files" id="files"></div>
-```
+    <div class="files" id="files"></div>
 
   </div>
 
@@ -210,54 +209,52 @@
   <div class="content">
     <section>
       <h2>Convert images between JPG, PNG and WebP</h2>
-      <p>Quiet Convert changes images from one format to another right inside your browser. Choose a file, pick the format you want, and download the result. There is no upload step and no account — the conversion happens on your own device, so your images stay private.</p>
+      <p>Quiet Convert changes images from one format to another right inside your browser. Choose a file, pick the format you want, and download the result. There is no upload step and no account —your files are never sent to a server.</p>
 
-```
-  <h3>JPG to PNG</h3>
-  <p>Converting a JPG to PNG gives you a lossless file and supports transparency. This is useful when you need a clean image for editing, a logo with no background, or artwork you will compress again later. PNG files are usually larger than the JPG you started with.</p>
+      <h3>JPG to PNG</h3>
+      <p>Converting a JPG to PNG gives you a lossless file and supports transparency. This is useful when you need a clean image for editing, a logo with no background, or artwork you will compress again later.</p>
 
-  <h3>PNG to JPG</h3>
-  <p>Converting a PNG to JPG shrinks the file size, which makes it easier to email, upload, or attach where there is a size limit. JPG does not support transparency, so any transparent areas are filled with a white background during conversion.</p>
+      <h3>PNG to JPG</h3>
+      <p>Converting a PNG to JPG shrinks the file size, which makes it easier to email, upload, or attach where there is a size limit. JPG does not support transparency, so any transparent areas are filled with white.</p>
 
-  <h3>JPG and PNG to WebP</h3>
-  <p>WebP is a modern format that keeps good quality at a smaller file size than both JPG and PNG. It is well supported by current browsers and is a strong choice for images used on websites, where smaller files mean faster pages.</p>
+      <h3>JPG and PNG to WebP</h3>
+      <p>WebP is a modern format that keeps good quality at a smaller file size than both JPG and PNG. It is well supported by current browsers and is a strong choice for images used on websites, where smaller means faster to load.</p>
 
-  <h3>WebP to JPG or PNG</h3>
-  <p>If you have a WebP image that an older program or device will not open, convert it back to JPG or PNG for wider compatibility. Choose PNG to keep transparency, or JPG for the smallest file.</p>
+      <h3>WebP to JPG or PNG</h3>
+      <p>If you have a WebP image that an older program or device will not open, convert it back to JPG or PNG for wider compatibility. Choose PNG to keep transparency, or JPG for the smallest file.</p>
 
-  <h3>Resizing images</h3>
-  <p>You can set a maximum width when converting. If an image is wider than the limit, it is scaled down and the height adjusts to match, so the picture keeps its proportions. This is handy for reducing very large photos before uploading them.</p>
-</section>
+      <h3>Resizing images</h3>
+      <p>You can set a maximum width when converting. If an image is wider than the limit, it is scaled down and the height adjusts to match, so the picture keeps its proportions. This is handy for reducing the size of large photos before sharing.</p>
+    </section>
 
-<!-- AD SLOT 2 (within content, where visitors linger). Same swap as slot 1,
-     use a different data-ad-slot value. -->
-<div class="ad-slot">
-  <span class="ad-label">Advertisement</span>
-  <!--
-  <ins class="adsbygoogle"
-       style="display:block"
-       data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-       data-ad-slot="1111111111"
-       data-ad-format="auto"
-       data-full-width-responsive="true"></ins>
-  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-  -->
-</div>
+    <!-- AD SLOT 2 (within content, where visitors linger). Same swap as slot 1,
+         use a different data-ad-slot value. -->
+    <div class="ad-slot">
+      <span class="ad-label">Advertisement</span>
+      <!--
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="1111111111"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      -->
+    </div>
 
-<section>
-  <h2>Common questions</h2>
-  <p class="faq-q">Is it free?</p>
-  <p>Yes. The converter is free to use with no sign-up.</p>
-  <p class="faq-q">Do my files get uploaded anywhere?</p>
-  <p>No. The conversion runs entirely in your browser. Your images are never sent to a server and never leave your device.</p>
-  <p class="faq-q">What is the difference between PNG and JPG?</p>
-  <p>PNG is lossless and supports transparency, which makes files larger. JPG uses compression that reduces file size but does not support transparency. Use PNG for graphics and logos, and JPG for photos where small file size matters.</p>
-  <p class="faq-q">Why convert to WebP?</p>
-  <p>WebP files are usually smaller than JPG or PNG at similar quality, which helps web pages load faster.</p>
-  <p class="faq-q">Is there a file size limit?</p>
-  <p>There is no fixed limit, but very large images depend on your device's available memory since everything is processed locally.</p>
-</section>
-```
+    <section>
+      <h2>Common questions</h2>
+      <p class="faq-q">Is it free?</p>
+      <p>Yes. The converter is free to use with no sign-up.</p>
+      <p class="faq-q">Do my files get uploaded anywhere?</p>
+      <p>No. The conversion runs entirely in your browser. Your images are never sent to a server and never leave your device.</p>
+      <p class="faq-q">What is the difference between PNG and JPG?</p>
+      <p>PNG is lossless and supports transparency, which makes files larger. JPG uses compression that reduces file size but does not support transparency. Use PNG for graphics and logos, and JPG for photos.</p>
+      <p class="faq-q">Why convert to WebP?</p>
+      <p>WebP files are usually smaller than JPG or PNG at similar quality, which helps web pages load faster.</p>
+      <p class="faq-q">Is there a file size limit?</p>
+      <p>There is no fixed limit, but very large images depend on your device's available memory since everything is processed locally.</p>
+    </section>
 
   </div>
 
