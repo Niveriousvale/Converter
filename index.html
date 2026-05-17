@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Image Converter — JPG, PNG &amp; WebP, Free and Private | Quiet Convert</title>
+<meta name="description" content="Convert images between JPG, PNG and WebP free in your browser. No upload, no sign-up — your files never leave your device. Resize and adjust quality too." />
+<meta name="keywords" content="image converter, jpg to png, png to jpg, webp converter, convert image online, resize image" />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="/" />
+<meta property="og:title" content="Quiet Convert — Free Private Image Converter" />
+<meta property="og:description" content="Convert JPG, PNG and WebP in your browser. Files never leave your device." />
+<meta property="og:type" content="website" />
+<!-- ADSENSE LOADER: after approval, replace ca-pub-XXXXXXXXXXXXXXXX with your real publisher ID.
+     Until then this line is harmless and loads nothing visible. -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Quiet Convert",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Free browser-based image converter for JPG, PNG and WebP. Files never leave your device."
+}
+</script>
+<style>
+  :root {
+    --bg: #0f1115;
+    --panel: #181b22;
+    --panel-2: #1f232c;
+    --line: #2a2f3a;
+    --text: #e7e9ee;
+    --muted: #9aa3b2;
+    --accent: #6ea8fe;
+    --accent-2: #4d8bff;
+    --ok: #5bd6a0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px 20px 60px;
+  }
+  .wrap { width: 100%; max-width: 560px; }
+  header { text-align: center; margin-bottom: 28px; }
+  h1 { font-size: 26px; font-weight: 650; letter-spacing: -0.02em; }
+  .tag { color: var(--muted); font-size: 14px; margin-top: 6px; }
+  .privacy {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-top: 14px; padding: 6px 12px;
+    background: rgba(91,214,160,0.08);
+    border: 1px solid rgba(91,214,160,0.25);
+    border-radius: 999px;
+    font-size: 12.5px; color: var(--ok);
+  }
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 22px;
+  }
+  .drop {
+    border: 1.5px dashed var(--line);
+    border-radius: 12px;
+    padding: 36px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color .15s, background .15s;
+    background: var(--panel-2);
+  }
+  .drop:hover, .drop.over { border-color: var(--accent); background: rgba(110,168,254,0.06); }
+  .drop strong { display: block; font-size: 15px; margin-bottom: 4px; }
+  .drop span { color: var(--muted); font-size: 13px; }
+  .controls { margin-top: 20px; display: none; }
+  .controls.show { display: block; }
+  .row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .row label { font-size: 13px; color: var(--muted); width: 92px; flex-shrink: 0; }
+  select, input[type="number"] {
+    flex: 1; background: var(--panel-2); color: var(--text);
+    border: 1px solid var(--line); border-radius: 8px;
+    padding: 9px 10px; font-size: 14px;
+  }
+  input[type="range"] { flex: 1; accent-color: var(--accent); }
+  .qval { width: 38px; text-align: right; font-size: 13px; color: var(--muted); }
+  .btn {
+    width: 100%; margin-top: 8px; padding: 12px;
+    background: var(--accent-2); color: #fff; border: none;
+    border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer;
+    transition: opacity .15s;
+  }
+  .btn:hover { opacity: .9; }
+  .btn:disabled { opacity: .4; cursor: default; }
+  .files { margin-top: 18px; display: flex; flex-direction: column; gap: 8px; }
+  .file {
+    display: flex; align-items: center; gap: 12px;
+    background: var(--panel-2); border: 1px solid var(--line);
+    border-radius: 10px; padding: 10px 12px;
+  }
+  .thumb { width: 40px; height: 40px; border-radius: 6px; object-fit: cover; flex-shrink: 0; background: #000; }
+  .fmeta { flex: 1; min-width: 0; }
+  .fname { font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .fsize { font-size: 11.5px; color: var(--muted); }
+  .dl {
+    font-size: 12.5px; color: var(--accent); text-decoration: none;
+    border: 1px solid var(--line); padding: 6px 10px; border-radius: 7px;
+    flex-shrink: 0;
+  }
+  .dl:hover { border-color: var(--accent); }
+  footer { margin-top: 26px; text-align: center; color: var(--muted); font-size: 12px; }
+  .content { margin-top: 40px; }
+  .content section {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 20px 22px;
+    margin-bottom: 14px;
+  }
+  .content h2 { font-size: 17px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 8px; }
+  .content h3 { font-size: 14.5px; font-weight: 600; margin: 14px 0 4px; }
+  .content p { font-size: 13.5px; color: var(--muted); margin-bottom: 6px; }
+  .content .faq-q { color: var(--text); font-weight: 600; margin-top: 12px; }
+  .ad-slot {
+    margin: 22px 0;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--panel-2);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .ad-slot .ad-label {
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .ad-slot ins { display: block; width: 100%; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Quiet Convert</h1>
+    <div class="tag">JPG · PNG · WebP — convert and resize, no fuss.</div>
+    <div class="privacy">🔒 Files never leave your device</div>
+  </header>
+
+  <div class="card">
+    <div class="drop" id="drop">
+      <strong>Tap to choose images</strong>
+      <span>or drag &amp; drop — JPG, PNG, WebP</span>
+      <input type="file" id="file" accept="image/png,image/jpeg,image/webp" multiple hidden />
+    </div>
+
+```
+<div class="controls" id="controls">
+  <div class="row">
+    <label for="fmt">Convert to</label>
+    <select id="fmt">
+      <option value="image/png">PNG</option>
+      <option value="image/jpeg">JPG</option>
+      <option value="image/webp">WebP</option>
+    </select>
+  </div>
+  <div class="row" id="qrow">
+    <label for="quality">Quality</label>
+    <input type="range" id="quality" min="10" max="100" value="90" />
+    <span class="qval" id="qval">90%</span>
+  </div>
+  <div class="row">
+    <label for="maxw">Max width</label>
+    <input type="number" id="maxw" placeholder="optional, e.g. 1920" min="1" />
+  </div>
+  <button class="btn" id="go">Convert</button>
+</div>
+
+<div class="files" id="files"></div>
+```
+
+  </div>
+
+  <!-- AD SLOT 1 (below tool). After AdSense approval, replace ca-pub-XXXX and the
+       data-ad-slot value with your real IDs, and remove the placeholder label span. -->
+
+  <div class="ad-slot">
+    <span class="ad-label">Advertisement</span>
+    <!--
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+         data-ad-slot="0000000000"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    -->
+  </div>
+
+  <div class="content">
+    <section>
+      <h2>Convert images between JPG, PNG and WebP</h2>
+      <p>Quiet Convert changes images from one format to another right inside your browser. Choose a file, pick the format you want, and download the result. There is no upload step and no account — the conversion happens on your own device, so your images stay private.</p>
+
+```
+  <h3>JPG to PNG</h3>
+  <p>Converting a JPG to PNG gives you a lossless file and supports transparency. This is useful when you need a clean image for editing, a logo with no background, or artwork you will compress again later. PNG files are usually larger than the JPG you started with.</p>
+
+  <h3>PNG to JPG</h3>
+  <p>Converting a PNG to JPG shrinks the file size, which makes it easier to email, upload, or attach where there is a size limit. JPG does not support transparency, so any transparent areas are filled with a white background during conversion.</p>
+
+  <h3>JPG and PNG to WebP</h3>
+  <p>WebP is a modern format that keeps good quality at a smaller file size than both JPG and PNG. It is well supported by current browsers and is a strong choice for images used on websites, where smaller files mean faster pages.</p>
+
+  <h3>WebP to JPG or PNG</h3>
+  <p>If you have a WebP image that an older program or device will not open, convert it back to JPG or PNG for wider compatibility. Choose PNG to keep transparency, or JPG for the smallest file.</p>
+
+  <h3>Resizing images</h3>
+  <p>You can set a maximum width when converting. If an image is wider than the limit, it is scaled down and the height adjusts to match, so the picture keeps its proportions. This is handy for reducing very large photos before uploading them.</p>
+</section>
+
+<!-- AD SLOT 2 (within content, where visitors linger). Same swap as slot 1,
+     use a different data-ad-slot value. -->
+<div class="ad-slot">
+  <span class="ad-label">Advertisement</span>
+  <!--
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+       data-ad-slot="1111111111"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  -->
+</div>
+
+<section>
+  <h2>Common questions</h2>
+  <p class="faq-q">Is it free?</p>
+  <p>Yes. The converter is free to use with no sign-up.</p>
+  <p class="faq-q">Do my files get uploaded anywhere?</p>
+  <p>No. The conversion runs entirely in your browser. Your images are never sent to a server and never leave your device.</p>
+  <p class="faq-q">What is the difference between PNG and JPG?</p>
+  <p>PNG is lossless and supports transparency, which makes files larger. JPG uses compression that reduces file size but does not support transparency. Use PNG for graphics and logos, and JPG for photos where small file size matters.</p>
+  <p class="faq-q">Why convert to WebP?</p>
+  <p>WebP files are usually smaller than JPG or PNG at similar quality, which helps web pages load faster.</p>
+  <p class="faq-q">Is there a file size limit?</p>
+  <p>There is no fixed limit, but very large images depend on your device's available memory since everything is processed locally.</p>
+</section>
+```
+
+  </div>
+
+  <footer>Runs entirely in your browser. Nothing is uploaded.</footer>
+</div>
+
+<script>
+  const drop = document.getElementById('drop');
+  const fileInput = document.getElementById('file');
+  const controls = document.getElementById('controls');
+  const filesEl = document.getElementById('files');
+  const fmt = document.getElementById('fmt');
+  const quality = document.getElementById('quality');
+  const qval = document.getElementById('qval');
+  const qrow = document.getElementById('qrow');
+  const maxw = document.getElementById('maxw');
+  const go = document.getElementById('go');
+
+  let queue = [];
+
+  function fmtSize(b) {
+    if (b < 1024) return b + ' B';
+    if (b < 1048576) return (b / 1024).toFixed(1) + ' KB';
+    return (b / 1048576).toFixed(2) + ' MB';
+  }
+  function ext(mime) {
+    return mime === 'image/jpeg' ? 'jpg' : mime === 'image/webp' ? 'webp' : 'png';
+  }
+
+  drop.addEventListener('click', () => fileInput.click());
+  drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('over'); });
+  drop.addEventListener('dragleave', () => drop.classList.remove('over'));
+  drop.addEventListener('drop', e => {
+    e.preventDefault(); drop.classList.remove('over');
+    handleFiles(e.dataTransfer.files);
+  });
+  fileInput.addEventListener('change', e => handleFiles(e.target.files));
+
+  function handleFiles(list) {
+    queue = Array.from(list).filter(f => f.type.startsWith('image/'));
+    if (!queue.length) return;
+    controls.classList.add('show');
+    renderQueue();
+  }
+
+  function renderQueue() {
+    filesEl.innerHTML = '';
+    queue.forEach(f => {
+      const url = URL.createObjectURL(f);
+      const row = document.createElement('div');
+      row.className = 'file';
+      row.innerHTML =
+        '<img class="thumb" src="' + url + '" />' +
+        '<div class="fmeta"><div class="fname">' + f.name + '</div>' +
+        '<div class="fsize">' + fmtSize(f.size) + '</div></div>';
+      filesEl.appendChild(row);
+    });
+  }
+
+  // hide quality slider for PNG (lossless — quality has no effect)
+  fmt.addEventListener('change', () => {
+    qrow.style.display = fmt.value === 'image/png' ? 'none' : 'flex';
+  });
+  quality.addEventListener('input', () => qval.textContent = quality.value + '%');
+
+  go.addEventListener('click', async () => {
+    if (!queue.length) return;
+    go.disabled = true;
+    go.textContent = 'Converting…';
+    filesEl.innerHTML = '';
+
+    for (const f of queue) {
+      try {
+        const out = await convert(f);
+        addResult(f, out);
+      } catch (err) {
+        const row = document.createElement('div');
+        row.className = 'file';
+        row.innerHTML = '<div class="fmeta"><div class="fname">' + f.name +
+          '</div><div class="fsize">Could not convert this file</div></div>';
+        filesEl.appendChild(row);
+      }
+    }
+    go.disabled = false;
+    go.textContent = 'Convert';
+  });
+
+  function convert(file) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      const url = URL.createObjectURL(file);
+      img.onload = () => {
+        let w = img.naturalWidth, h = img.naturalHeight;
+        const limit = parseInt(maxw.value, 10);
+        if (limit && w > limit) { h = Math.round(h * limit / w); w = limit; }
+
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        // white backing for JPG (no alpha) so transparency doesn't go black
+        if (fmt.value === 'image/jpeg') {
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, w, h);
+        }
+        ctx.drawImage(img, 0, 0, w, h);
+        URL.revokeObjectURL(url);
+
+        const q = parseInt(quality.value, 10) / 100;
+        const type = fmt.value;
+        const args = type === 'image/png' ? [type] : [type, q];
+
+        // dataURL -> Blob fallback for environments where toBlob is blocked
+        const viaDataURL = () => {
+          try {
+            const dataURL = canvas.toDataURL.apply(canvas, args);
+            const comma = dataURL.indexOf(',');
+            const bytes = atob(dataURL.slice(comma + 1));
+            const buf = new Uint8Array(bytes.length);
+            for (let i = 0; i < bytes.length; i++) buf[i] = bytes.charCodeAt(i);
+            resolve(new Blob([buf], { type: type }));
+          } catch (e) {
+            reject(new Error('conversion blocked'));
+          }
+        };
+
+        if (typeof canvas.toBlob === 'function') {
+          let settled = false;
+          const timer = setTimeout(() => { if (!settled) { settled = true; viaDataURL(); } }, 1500);
+          try {
+            canvas.toBlob(blob => {
+              if (settled) return;
+              settled = true;
+              clearTimeout(timer);
+              blob ? resolve(blob) : viaDataURL();
+            }, type, type === 'image/png' ? undefined : q);
+          } catch (e) {
+            if (!settled) { settled = true; clearTimeout(timer); viaDataURL(); }
+          }
+        } else {
+          viaDataURL();
+        }
+      };
+      img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('load failed')); };
+      img.src = url;
+    });
+  }
+
+  function addResult(original, blob) {
+    const url = URL.createObjectURL(blob);
+    const base = original.name.replace(/\.[^.]+$/, '');
+    const name = base + '.' + ext(fmt.value);
+    const row = document.createElement('div');
+    row.className = 'file';
+    row.innerHTML =
+      '<img class="thumb" src="' + url + '" />' +
+      '<div class="fmeta"><div class="fname">' + name + '</div>' +
+      '<div class="fsize">' + fmtSize(blob.size) + ' · done</div></div>';
+    const a = document.createElement('a');
+    a.className = 'dl';
+    a.href = url;
+    a.download = name;
+    a.textContent = 'Download';
+    row.appendChild(a);
+    filesEl.appendChild(row);
+  }
+</script>
+
+</body>
+</html>
