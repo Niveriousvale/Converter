@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Quiet Convert — Image Converter</title>
+<meta name="description" content="Free, fast, private image converter. Convert JPG, PNG and WebP in your browser. Files never leave your device." />
+<style>
+  :root {
+    --bg: #0f1115;
+    --panel: #181b22;
+    --panel-2: #1f232c;
+    --line: #2a2f3a;
+    --text: #e7e9ee;
+    --muted: #9aa3b2;
+    --accent: #6ea8fe;
+    --accent-2: #4d8bff;
+    --ok: #5bd6a0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px 20px 60px;
+  }
+  .wrap { width: 100%; max-width: 560px; }
+  header { text-align: center; margin-bottom: 28px; }
+  h1 { font-size: 26px; font-weight: 650; letter-spacing: -0.02em; }
+  .tag { color: var(--muted); font-size: 14px; margin-top: 6px; }
+  .privacy {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-top: 14px; padding: 6px 12px;
+    background: rgba(91,214,160,0.08);
+    border: 1px solid rgba(91,214,160,0.25);
+    border-radius: 999px;
+    font-size: 12.5px; color: var(--ok);
+  }
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 22px;
+  }
+  .drop {
+    border: 1.5px dashed var(--line);
+    border-radius: 12px;
+    padding: 36px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color .15s, background .15s;
+    background: var(--panel-2);
+  }
+  .drop:hover, .drop.over { border-color: var(--accent); background: rgba(110,168,254,0.06); }
+  .drop strong { display: block; font-size: 15px; margin-bottom: 4px; }
+  .drop span { color: var(--muted); font-size: 13px; }
+  .controls { margin-top: 20px; display: none; }
+  .controls.show { display: block; }
+  .row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .row label { font-size: 13px; color: var(--muted); width: 92px; flex-shrink: 0; }
+  select, input[type="number"] {
+    flex: 1; background: var(--panel-2); color: var(--text);
+    border: 1px solid var(--line); border-radius: 8px;
+    padding: 9px 10px; font-size: 14px;
+  }
+  input[type="range"] { flex: 1; accent-color: var(--accent); }
+  .qval { width: 38px; text-align: right; font-size: 13px; color: var(--muted); }
+  .btn {
+    width: 100%; margin-top: 8px; padding: 12px;
+    background: var(--accent-2); color: #fff; border: none;
+    border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer;
+    transition: opacity .15s;
+  }
+  .btn:hover { opacity: .9; }
+  .btn:disabled { opacity: .4; cursor: default; }
+  .files { margin-top: 18px; display: flex; flex-direction: column; gap: 8px; }
+  .file {
+    display: flex; align-items: center; gap: 12px;
+    background: var(--panel-2); border: 1px solid var(--line);
+    border-radius: 10px; padding: 10px 12px;
+  }
+  .thumb { width: 40px; height: 40px; border-radius: 6px; object-fit: cover; flex-shrink: 0; background: #000; }
+  .fmeta { flex: 1; min-width: 0; }
+  .fname { font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .fsize { font-size: 11.5px; color: var(--muted); }
+  .dl {
+    font-size: 12.5px; color: var(--accent); text-decoration: none;
+    border: 1px solid var(--line); padding: 6px 10px; border-radius: 7px;
+    flex-shrink: 0;
+  }
+  .dl:hover { border-color: var(--accent); }
+  footer { margin-top: 26px; text-align: center; color: var(--muted); font-size: 12px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Quiet Convert</h1>
+    <div class="tag">JPG · PNG · WebP — convert and resize, no fuss.</div>
+    <div class="privacy">🔒 Files never leave your device</div>
+  </header>
+
+  <div class="card">
+    <div class="drop" id="drop">
+      <strong>Tap to choose images</strong>
+      <span>or drag &amp; drop — JPG, PNG, WebP</span>
+      <input type="file" id="file" accept="image/png,image/jpeg,image/webp" multiple hidden />
+    </div>
+
+```
+<div class="controls" id="controls">
+  <div class="row">
+    <label for="fmt">Convert to</label>
+    <select id="fmt">
+      <option value="image/png">PNG</option>
+      <option value="image/jpeg">JPG</option>
+      <option value="image/webp">WebP</option>
+    </select>
+  </div>
+  <div class="row" id="qrow">
+    <label for="quality">Quality</label>
+    <input type="range" id="quality" min="10" max="100" value="90" />
+    <span class="qval" id="qval">90%</span>
+  </div>
+  <div class="row">
+    <label for="maxw">Max width</label>
+    <input type="number" id="maxw" placeholder="optional, e.g. 1920" min="1" />
+  </div>
+  <button class="btn" id="go">Convert</button>
+</div>
+
+<div class="files" id="files"></div>
+```
+
+  </div>
+
+  <footer>Runs entirely in your browser. Nothing is uploaded.</footer>
+</div>
+
+<script>
+  const drop = document.getElementById('drop');
+  const fileInput = document.getElementById('file');
+  const controls = document.getElementById('controls');
+  const filesEl = document.getElementById('files');
+  const fmt = document.getElementById('fmt');
+  const quality = document.getElementById('quality');
+  const qval = document.getElementById('qval');
+  const qrow = document.getElementById('qrow');
+  const maxw = document.getElementById('maxw');
+  const go = document.getElementById('go');
+
+  let queue = [];
+
+  function fmtSize(b) {
+    if (b < 1024) return b + ' B';
+    if (b < 1048576) return (b / 1024).toFixed(1) + ' KB';
+    return (b / 1048576).toFixed(2) + ' MB';
+  }
+  function ext(mime) {
+    return mime === 'image/jpeg' ? 'jpg' : mime === 'image/webp' ? 'webp' : 'png';
+  }
+
+  drop.addEventListener('click', () => fileInput.click());
+  drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('over'); });
+  drop.addEventListener('dragleave', () => drop.classList.remove('over'));
+  drop.addEventListener('drop', e => {
+    e.preventDefault(); drop.classList.remove('over');
+    handleFiles(e.dataTransfer.files);
+  });
+  fileInput.addEventListener('change', e => handleFiles(e.target.files));
+
+  function handleFiles(list) {
+    queue = Array.from(list).filter(f => f.type.startsWith('image/'));
+    if (!queue.length) return;
+    controls.classList.add('show');
+    renderQueue();
+  }
+
+  function renderQueue() {
+    filesEl.innerHTML = '';
+    queue.forEach(f => {
+      const url = URL.createObjectURL(f);
+      const row = document.createElement('div');
+      row.className = 'file';
+      row.innerHTML =
+        '<img class="thumb" src="' + url + '" />' +
+        '<div class="fmeta"><div class="fname">' + f.name + '</div>' +
+        '<div class="fsize">' + fmtSize(f.size) + '</div></div>';
+      filesEl.appendChild(row);
+    });
+  }
+
+  // hide quality slider for PNG (lossless — quality has no effect)
+  fmt.addEventListener('change', () => {
+    qrow.style.display = fmt.value === 'image/png' ? 'none' : 'flex';
+  });
+  quality.addEventListener('input', () => qval.textContent = quality.value + '%');
+
+  go.addEventListener('click', async () => {
+    if (!queue.length) return;
+    go.disabled = true;
+    go.textContent = 'Converting…';
+    filesEl.innerHTML = '';
+
+    for (const f of queue) {
+      try {
+        const out = await convert(f);
+        addResult(f, out);
+      } catch (err) {
+        const row = document.createElement('div');
+        row.className = 'file';
+        row.innerHTML = '<div class="fmeta"><div class="fname">' + f.name +
+          '</div><div class="fsize">Could not convert this file</div></div>';
+        filesEl.appendChild(row);
+      }
+    }
+    go.disabled = false;
+    go.textContent = 'Convert';
+  });
+
+  function convert(file) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      const url = URL.createObjectURL(file);
+      img.onload = () => {
+        let w = img.naturalWidth, h = img.naturalHeight;
+        const limit = parseInt(maxw.value, 10);
+        if (limit && w > limit) { h = Math.round(h * limit / w); w = limit; }
+
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        // white backing for JPG (no alpha) so transparency doesn't go black
+        if (fmt.value === 'image/jpeg') {
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, w, h);
+        }
+        ctx.drawImage(img, 0, 0, w, h);
+        URL.revokeObjectURL(url);
+
+        const q = parseInt(quality.value, 10) / 100;
+        const type = fmt.value;
+        const args = type === 'image/png' ? [type] : [type, q];
+
+        // dataURL -> Blob fallback for environments where toBlob is blocked
+        const viaDataURL = () => {
+          try {
+            const dataURL = canvas.toDataURL.apply(canvas, args);
+            const comma = dataURL.indexOf(',');
+            const bytes = atob(dataURL.slice(comma + 1));
+            const buf = new Uint8Array(bytes.length);
+            for (let i = 0; i < bytes.length; i++) buf[i] = bytes.charCodeAt(i);
+            resolve(new Blob([buf], { type: type }));
+          } catch (e) {
+            reject(new Error('conversion blocked'));
+          }
+        };
+
+        if (typeof canvas.toBlob === 'function') {
+          let settled = false;
+          const timer = setTimeout(() => { if (!settled) { settled = true; viaDataURL(); } }, 1500);
+          try {
+            canvas.toBlob(blob => {
+              if (settled) return;
+              settled = true;
+              clearTimeout(timer);
+              blob ? resolve(blob) : viaDataURL();
+            }, type, type === 'image/png' ? undefined : q);
+          } catch (e) {
+            if (!settled) { settled = true; clearTimeout(timer); viaDataURL(); }
+          }
+        } else {
+          viaDataURL();
+        }
+      };
+      img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('load failed')); };
+      img.src = url;
+    });
+  }
+
+  function addResult(original, blob) {
+    const url = URL.createObjectURL(blob);
+    const base = original.name.replace(/\.[^.]+$/, '');
+    const name = base + '.' + ext(fmt.value);
+    const row = document.createElement('div');
+    row.className = 'file';
+    row.innerHTML =
+      '<img class="thumb" src="' + url + '" />' +
+      '<div class="fmeta"><div class="fname">' + name + '</div>' +
+      '<div class="fsize">' + fmtSize(blob.size) + ' · done</div></div>';
+    const a = document.createElement('a');
+    a.className = 'dl';
+    a.href = url;
+    a.download = name;
+    a.textContent = 'Download';
+    row.appendChild(a);
+    filesEl.appendChild(row);
+  }
+</script>
+
+</body>
+</html>
